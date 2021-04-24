@@ -11,12 +11,10 @@
     "start:dev": "nodemon --exec node index.js",
     "test": "cross-env NODE_ENV=test && jest --runInBand --verbose --detectOpenHandles --forceExit",
     "test:watch": "yarn test --watch",
-    "test:coverage": "yarn test --coverage",
-    "report-coverage": "coveralls < ./coverage/lcov.info"
+    "test:coverage": "yarn test --coverage"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.4",
-    "codeclimate-test-reporter": "^0.5.1",
     "eslint": "^7.24.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.2.0",
@@ -30,7 +28,6 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
     "celebrate": "^14.0.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
