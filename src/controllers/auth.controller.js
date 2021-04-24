@@ -3,6 +3,8 @@ const sendResponse = require('../helpers/response');
 const { UserQuery } = require('../queries');
 const emailService = require('../services/email.service');
 const config = require('../config');
+const { comparePassword } = require('../services/bcrypt.service');
+const { issue } = require('../services/auth.service')
 
 const signUp = async (req, res, next) => {
   try {
@@ -50,4 +52,37 @@ const signUp = async (req, res, next) => {
   }
 }
 
-module.exports = signUp;
+const login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+    
+        let user = await UserQuery.findOne({email});
+    
+        if (!user) {
+            return res.status(httpStatus.NOT_FOUND).json(
+            sendResponse(httpStatus.NOT_FOUND, 'User does not exist', null, {
+                error: 'User does not exist'
+            })
+            );
+        }
+    
+        if (await comparePassword(password, user.password)) {
+            // to issue token with the user object, convert it to JSON
+            const token = issue(user.toJSON());
+    
+            user = { user, token };
+    
+            return res.json(sendResponse(httpStatus.OK, 'success', user, null));
+        }
+    
+        return res.status(httpStatus.BAD_REQUEST).json(
+            sendResponse(httpStatus.BAD_REQUEST, 'invalid email or password', null, {
+            issue: 'invalid email or password'
+            })
+        );
+    } catch (err) {
+        next(err);
+    }
+  };
+
+module.exports = { signUp, login };
