@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { isCelebrate } = require('celebrate');
+const { isCelebrateError } = require('celebrate');
 const config = require('./index');
 
 const APIError = require('../helpers/APIError');
@@ -32,11 +32,11 @@ const handler = (err, _req, res, _next) => {
  */
 const converter = (err, req, res, _next) => {
   let convertedError = err;
-  if (isCelebrate(err)) {
+  if (isCelebrateError(err)) {
     convertedError = new APIError({
       message: 'Invalid fields',
       status: httpStatus.BAD_REQUEST, //unprocessible entity
-      errors: JoiErrorFormatter(err.joi.details) || {},
+      errors: JoiErrorFormatter(err.details) || {},
       payload: {}
     });
   } else if (!(err instanceof APIError)) {
@@ -56,7 +56,7 @@ const converter = (err, req, res, _next) => {
  * @param {} req
  * @param {*} res
  */
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, _req, _res, next) => {
   if (err) {
     const tokenError = new APIError('Unauthorized', err.status, true);
     next(tokenError);
