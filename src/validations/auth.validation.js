@@ -4,26 +4,33 @@ const sendResponse = require('../helpers/response');
 
 const userValidation = {
   // POST /api/v1/auth/signup
-  signUp: {
-    body: {
-      fullName: Joi.string()
-        .max(200)
-        .required(),
-      userName: Joi.string()
-        .min(2)
-        .max(200)
-        .required(),
-      email: Joi.string()
-        .email()
-        .max(200)
-        .required(),
-      password: Joi.string()
-        .min(6)
-        .max(255)
-        .required(),
-      confirmPassword: Joi.string().required()
-    }
-  }
+    signUp: {
+        body: {
+        fullName: Joi.string()
+            .max(200)
+            .required(),
+        userName: Joi.string()
+            .min(2)
+            .max(200)
+            .required(),
+        email: Joi.string()
+            .email()
+            .max(200)
+            .required(),
+        password: Joi.string()
+            .min(6)
+            .max(255)
+            .required(),
+        confirmPassword: Joi.string().required()
+        }
+    },
+
+    login: {
+        body: {
+          email: Joi.string().email().required(),
+          password: Joi.string().required()
+        }
+      },
 };
 
 const passwordCheck = (req, res, next) => {
