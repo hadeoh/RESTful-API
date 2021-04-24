@@ -21,4 +21,4 @@ class Query {
     }
 }
   
-modeule.exports = Query;
+module.exports = Query;
