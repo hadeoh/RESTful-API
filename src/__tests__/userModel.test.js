@@ -1,5 +1,5 @@
   
-import User from '../models/user.model';
+const User = require('../models/user.model');
 
 describe('User model', () => {
   test('All fields are required', async () => {
