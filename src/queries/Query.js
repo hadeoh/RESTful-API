@@ -16,8 +16,8 @@ class Query {
       return this.Model.findOneAndUpdate(where, payload, { new: true }).exec();
     }
   
-    delete(payload, cacheOptions) {
-      return this.Model.deleteOne(payload, cacheOptions).exec();
+    delete(payload) {
+      return this.Model.deleteOne(payload).exec();
     }
 }
   

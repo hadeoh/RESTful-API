@@ -58,6 +58,25 @@ describe('Posts route', () => {
     expect(res.body.errors).toBeNull();
   });
 
+  it('should delete a post', async () => {
+    
+    const post = await request(app).post(`${POST_BASE_URL}`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        content: 'I am here'
+      });
+
+    const res = await request(app)
+      .delete(`${POST_BASE_URL}/${post.body.payload.id}`)
+      .set('Authorization', `Bearer ${userToken}`);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('statusCode');
+    expect(res.body).toHaveProperty('message');
+    expect(res.body).toHaveProperty('payload');
+    expect(res.body.errors).toBeNull();
+  });
+
   it('should authorise a user', async () => {
     await request(app)
       .post(`${AUTH_BASE_URL}/signup`)

@@ -43,4 +43,16 @@ const fetchPost = async (req, res, next) => {
     }
 }
 
-module.exports = {publishPost, fetchPost};
+const deletePost = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        await PostQuery.delete({ _id: id });
+
+        return res.json(sendResponse(httpStatus.OK, 'success', null, null));
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = {publishPost, fetchPost, deletePost};
