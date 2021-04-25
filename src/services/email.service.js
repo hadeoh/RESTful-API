@@ -3,8 +3,9 @@ const nodemailer = require("nodemailer");
 require('dotenv').config();
 
 // async..await is not allowed in global scope, must use a wrapper
-async function emailService(receiverEmailAddress, subject, body) {
-  // Generate test SMTP service account from ethereal.email
+const emailService = async (receiverEmailAddress, subject, body) => {
+  try {
+    // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
   let testAccount = await nodemailer.createTestAccount();
 
@@ -36,8 +37,9 @@ async function emailService(receiverEmailAddress, subject, body) {
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
   }
+  } catch (error) {
+    console.error(error)
+  }
 }
-
-emailService().catch(console.error);
 
 module.exports = emailService;
