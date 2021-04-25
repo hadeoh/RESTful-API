@@ -55,4 +55,22 @@ const deletePost = async (req, res, next) => {
     }
 }
 
-module.exports = {publishPost, fetchPost, deletePost};
+const editPost = async (req, res, next) => {
+    try {
+        const {id} = req.params;
+
+        const {content} = req.body;
+
+        const post = await PostQuery.update({ content }, { _id: id });
+
+        if (post == null) {
+            return res.status(httpStatus.NOT_FOUND).json(sendResponse(httpStatus.NOT_FOUND, 'No post with such id', null, null));
+        }
+
+        return res.json(sendResponse(httpStatus.OK, 'success', post, null));
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = {publishPost, fetchPost, deletePost, editPost};

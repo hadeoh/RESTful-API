@@ -12,7 +12,7 @@ class Query {
       return this.Model.findOne(payload).exec();
     }
   
-    update({ payload, where }) {
+    update(payload, where) {
       return this.Model.findOneAndUpdate(where, payload, { new: true }).exec();
     }
   
