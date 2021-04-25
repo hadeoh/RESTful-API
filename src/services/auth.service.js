@@ -3,8 +3,10 @@ const config = require('../config');
 
 const secret = config.env === 'production' ? config.jwtSecret : 'secret';
 
-const issue = payload => jwt.sign(payload, secret, { expiresIn: 86400 });
+const issue = (payload, secs) => jwt.sign(payload, secret, { expiresIn: secs });
 
 const verify = (token, cb) => jwt.verify(token, secret, cb);
 
-module.exports = { issue, verify }
+const decode = (token)  => jwt.decode(token, secret);
+
+module.exports = { issue, verify, decode }
