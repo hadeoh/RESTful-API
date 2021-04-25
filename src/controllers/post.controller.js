@@ -19,10 +19,6 @@ const publishPost = async (req, res, next) => {
             photo = result.url;
         }
 
-        
-
-        
-
         const post = await PostQuery.create({ content, user, photo });
 
         return res.json(sendResponse(httpStatus.CREATED, 'success', post, null));
@@ -31,4 +27,20 @@ const publishPost = async (req, res, next) => {
     }
 };
 
-module.exports = {publishPost};
+const fetchPost = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const post = await PostQuery.findOne({ _id: id });
+
+        if (post == null) {
+            return res.status(httpStatus.NOT_FOUND).json(sendResponse(httpStatus.NOT_FOUND, 'No post with such id', null, null));
+        }
+
+        return res.json(sendResponse(httpStatus.OK, 'success', post, null));
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = {publishPost, fetchPost};
